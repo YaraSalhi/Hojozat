@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
-const cors = require("cors")
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const app = express();
 
 process.env.SECRET_KEY = "secret";
@@ -22,33 +22,38 @@ db.once("open", function() {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("src"));
-app.use(cors())
+app.use(cors());
 const reservationsModel = require("./models/item.js").reservationsModel;
 const hallsModel = require("./models/item.js").hallsModel;
 const ShopsModel = require("./models/item.js").ShopsModel;
 const Coll = require("./models/item.js").Coll;
 const Appointments = require("./models/item.js").AppointmentsModel;
 const saveAppointment = require("./models/item.js");
-// app.get("/reservations", (req, res) => {
-//   console.log("data");
-//   reservationsModel.find({}).then(reservationsModel => {
-//     console.log(reservationsModel);
-//     res.json(reservationsModel);
-//   });
-// });
-// app.get("/halls", (req, res) => {
-//   hallsModel.find({}).then(hallsModel => {
-//     res.json(hallsModel);
-//   })
-// })
-// app.get("/shops", (req, res) => {
-//   ShopsModel.find({ description: "hall" }).then(ShopsModel => {
-//     res.json(ShopsModel);
-//   });
-// });
 
+app.post("/Appointments", function(req, res) {
+  saveAppointment.saveAppointment(req.body, data => {
+    console.log("data is: ", data);
+    res.send(data);
+  });
+});
 
-////////Basima part:
+app.get("/Appointments", (req, res) => {
+  Appointments.find({}).then(Appointments => {
+    res.json(Appointments);
+  });
+});
+
+app.get("/shops/:id", (req, res) => {
+  ShopsModel.findOne({}).then(ShopsModel => {
+    res.json(ShopsModel);
+  });
+});
+app.get("/shops", (req, res) => {
+  ShopsModel.find({}).then(ShopsModel => {
+    res.json(ShopsModel);
+  });
+});
+
 app.get("/id", function(req, res) {
   var d = req.query.id;
   console.log(d);
@@ -63,7 +68,6 @@ app.get("/id", function(req, res) {
   //next();
 });
 
-
 //============================================================================
 //________________________________Sign UP____________________________________
 //============================================================================
@@ -77,42 +81,41 @@ app.post("/signup", (req, res) => {
   //   return res.status(400).json(errors);
   // }
   var body = req.body;
-          console.log(body.Email)
-          const userData = {
-            userName : body.userName,
-            Email : body.Email,
-            password : body.password
-          }
-          console.log(userData)
-          Coll.findOne({
-            Email : body.Email
-          })
-          .then(user => {
-            if(!user) {
-              //console.log(user.Email)
-              bcrypt.hash(body.password , 10 ,(err, hash) =>{
-                userData.password = hash
-                Coll.create(userData)
-                    .then(user => {
-                      res.send({ 
-                       status : user.Email + " welcome !!"
-                      })
-                      .catch(err => {
-                        res.send("error")
-                      });
-                   });
-                });
-               } else {
-                  res.send({ 
-                   error: "User is already exists !!",
-                   
-                  });
-                }
-             })
+  console.log(body.Email);
+  const userData = {
+    userName: body.userName,
+    Email: body.Email,
+    password: body.password
+  };
+  console.log(userData);
+  Coll.findOne({
+    Email: body.Email
+  })
+    .then(user => {
+      if (!user) {
+        //console.log(user.Email)
+        bcrypt.hash(body.password, 10, (err, hash) => {
+          userData.password = hash;
+          Coll.create(userData).then(user => {
+            res
+              .send({
+                status: user.Email + " welcome !!"
+              })
               .catch(err => {
-                res.send("error" + err)
+                res.send("error");
               });
-            });
+          });
+        });
+      } else {
+        res.send({
+          error: "User is already exists !!"
+        });
+      }
+    })
+    .catch(err => {
+      res.send("error" + err);
+    });
+});
 //////////////////////////////////////////////////////////
 app.post("/signupO", (req, res) => {
   // Form validation
@@ -122,77 +125,74 @@ app.post("/signupO", (req, res) => {
   //   return res.status(400).json(errors);
   // }
   var body = req.body;
-          console.log(body.Email)
-          const userData = {
-            userName : body.userName,
-            Email : body.Email,
-            password : body.password
-          }
-          console.log(userData)
-          Coll.findOne({
-            Email : body.Email
-          })
-          .then(user => {
-            if(!user) {
-              //console.log(user.Email)
-              bcrypt.hash(body.password , 10 ,(err, hash) =>{
-                userData.password = hash
-                Coll.create(userData)
-                    .then(user => {
-                      res.send({ 
-                       status : user.Email + " welcome !!"
-                      })
-                      .catch(err => {
-                        res.send("error")
-                      });
-                   });
-                });
-               } else {
-                  res.send({ 
-                   error: "User is already exists !!",
-                   
-                  });
-                }
-             })
+  console.log(body.Email);
+  const userData = {
+    userName: body.userName,
+    Email: body.Email,
+    password: body.password
+  };
+  console.log(userData);
+  Coll.findOne({
+    Email: body.Email
+  })
+    .then(user => {
+      if (!user) {
+        //console.log(user.Email)
+        bcrypt.hash(body.password, 10, (err, hash) => {
+          userData.password = hash;
+          Coll.create(userData).then(user => {
+            res
+              .send({
+                status: user.Email + " welcome !!"
+              })
               .catch(err => {
-                res.send("error" + err)
+                res.send("error");
               });
-            });
+          });
+        });
+      } else {
+        res.send({
+          error: "User is already exists !!"
+        });
+      }
+    })
+    .catch(err => {
+      res.send("error" + err);
+    });
+});
 
 //============================================================================
 //________________________________login____________________________________
 //============================================================================
 
 app.post("/login", (req, res) => {
-      Coll.findOne({
-        Email: req.body.Email
-      })
-      .then(user => {
-        console.log(user)
-        if(user) {
-          if(bcrypt.compareSync(req.body.password , user.password)) {
-            const payload = {
-              Email: user.Email,
-              password: user.password,     
-            };
-            let token = jwt.sign(payload, process.env.SECRET_KEY, {
-              expiresIn: "24h"
-            })
-            console.log(token);
-            res.send(token)
-          } else {
-            res.json({error: "wrong password !"})
-          }
-          } else {
-          res.send({ error: "user does not exist" });
+  Coll.findOne({
+    Email: req.body.Email
+  })
+    .then(user => {
+      console.log(user);
+      if (user) {
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+          const payload = {
+            Email: user.Email,
+            password: user.password
+          };
+          let token = jwt.sign(payload, process.env.SECRET_KEY, {
+            expiresIn: "24h"
+          });
+          console.log(token);
+          res.send(token);
+        } else {
+          res.json({ error: "wrong password !" });
         }
-      })
-      .catch(err => {
-        res.send("error: " + err);
+      } else {
+        res.send({ error: "user does not exist" });
+      }
+    })
+    .catch(err => {
+      res.send("error: " + err);
     });
-     });
-
-
+});
 
 //============================================================================
 //_______________________________Owner____________________________________
@@ -214,13 +214,9 @@ app.post("/shops", function(req, res) {
   console.log(itemData);
 });
 
-
-
-
 //============================================================================
 //_______________________________Appointments____________________________________
 //============================================================================
-
 
 app.post("/Appointments", function(req, res) {
   saveAppointment.saveAppointment(req.body, data => {
@@ -229,6 +225,11 @@ app.post("/Appointments", function(req, res) {
   });
 });
 
+app.get("/item/:id", (req, res) => {
+  ShopsModel.findOne({}).then(ShopsModel => {
+    res.json(ShopsModel);
+  });
+});
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("/build"));
@@ -242,4 +243,3 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log("server started on port " + port);
 });
-  

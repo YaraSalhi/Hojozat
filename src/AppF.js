@@ -1,9 +1,5 @@
 import React from "react";
 import ListItem from "./ListItem";
-import $ from "jquery";
-import Items from "./Item";
-import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
-import Calender from "./Calender";
 
 export default class AppF extends React.Component {
   render() {
