@@ -5,9 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
-import ItemComponent from "./itemComponent";
 import axios from "axios";
-import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,7 +68,7 @@ const Item = () => {
                       {place.name}
                     </Typography>
                     <Typography key={place._id} variant="body2" gutterBottom>
-                      {place.location}
+                      openingHours: {place.openingHours}
                     </Typography>
                     <Typography
                       key={place._id}

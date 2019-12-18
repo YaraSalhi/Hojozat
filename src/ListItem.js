@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Item from "./Item";
-import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,7 +10,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ListItem() {
-
   const classes = useStyles();
 
   function FormRow() {
@@ -36,12 +34,12 @@ export default function ListItem() {
         <Grid container item xs={24} spacing={3}>
           <FormRow />
         </Grid>
-        {/* <Grid container item xs={12} spacing={3}>
+        <Grid container item xs={12} spacing={3}>
           <FormRow />
         </Grid>
         <Grid container item xs={12} spacing={3}>
           <FormRow />
-        </Grid> */}
+        </Grid>
       </Grid>
     </div>
   );
