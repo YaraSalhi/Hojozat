@@ -5,6 +5,31 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
   console.log(" database connection succeded");
 });
+const mainSchema = new Schema ({
+  id:Number,
+  mainComImg:String,
+  mainComDis:String,
+  
+});
+
+const mainModel = mongoose.model("main", mainSchema);
+
+sample1 = new mainModel({
+  id:1,
+  mainComImg:"https://i.dailymail.co.uk/i/pix/2013/08/29/article-2405092-1A43B868000005DC-737_638x377.jpg",
+  mainComDis:"",
+});
+    // sample1.save((error,result)=>{
+    //   if(error){
+    //       console.log("errrrrror",error
+    //       )
+    //   }
+    //   else{
+    //   console.log("main done")
+    //   }
+    //   });
+module.exports.mainModel = mainModel;
+
 const userSchema = new mongoose.Schema({
   id: Number,
   email: String,
@@ -16,7 +41,7 @@ const ownerSchema = new mongoose.Schema({
   userId: Number,
   profileImg: String
 });
-//
+
 const customerSchema = new mongoose.Schema({
   name: String,
   userId: String,
@@ -201,4 +226,5 @@ module.exports.CustomerModel = CustomerModel;
 module.exports.ShopsModel = ShopsModel;
 module.exports.AppointmentsModel = AppointmentsModel;
 module.exports.saveAppointment = saveAppointment;
-module.exports.Coll = Coll;
+module.exports.Coll= Coll;
+module.exports.mainModel=mainModel;
