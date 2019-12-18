@@ -6,7 +6,6 @@ const cors = require("cors")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const app = express();
-
 process.env.SECRET_KEY = "secret";
 
 // //Config DB
@@ -29,6 +28,22 @@ const ShopsModel = require("./models/item.js").ShopsModel;
 const Coll = require("./models/item.js").Coll;
 const Appointments = require("./models/item.js").AppointmentsModel;
 const saveAppointment = require("./models/item.js");
+const mainModel =require ('./models/item.js').mainModel;
+
+app.get("/", (req, res) => {
+//  if(Object.keys(req.query).length === 0 ){
+  mainModel.find({})
+     .then(mainModel => res.json(mainModel));
+     
+    // }
+    //   else{
+    //     mainModel.find(req.query)
+    //     .then(mainModel => res.json(mainModel));
+    //    }
+     }
+
+ )
+
 // app.get("/reservations", (req, res) => {
 //   console.log("data");
 //   reservationsModel.find({}).then(reservationsModel => {
@@ -242,4 +257,6 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log("server started on port " + port);
 });
+  
+
   
